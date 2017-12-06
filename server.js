@@ -1,23 +1,51 @@
-// Server setup
+(function() {
+    
+    'use strict';
+    // Server setup
 
-var express    = require('express');
-var app        = express();
+    var express = require('express');
+    var app = express();
+    var morgan = require('morgan');
+    var jwt  = require('jsonwebtoken');
+    var config = require('./app/config');
 
-// Router Setup
+    // Secret
 
-var router     = express.Router();
-require('./app/router.js')(router);
+    app.set('superSecret', config.secret);
+    
+    // Mongoose users model
 
-// Body Parser Setup
+    var mongoose = require('mongoose');
+    var user = require('./app/models/User.js')(mongoose);
 
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+    // Routers Setup
 
-// Prefix route
+    var authRouter = express.Router();
+    require('./app/routers/authenticate_route.js')(authRouter, user, jwt, app);
+    require('./app/middleware/validateToken.js')(authRouter, user, jwt, app);
 
-app.use('/api', router);
+    var usersRouter = express.Router();
+    require('./app/routers/usersRouter.js')(usersRouter, user);
 
-// Listen Port
 
-app.listen( process.env.PORT || 8000);
+    // Morgan
+
+    app.use(morgan('dev'));
+
+    // Body Parser Setup
+
+    var bodyParser = require('body-parser');
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+
+    // Prefix route
+
+    app.use('/api', authRouter);
+    app.use('/api', usersRouter);
+
+
+    // Listen Port
+
+    app.listen( process.env.PORT || 8000);
+    
+}());

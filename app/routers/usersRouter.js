@@ -1,6 +1,4 @@
-module.exports = function(router) {
-
-    var User         = require('./models/user.js');
+module.exports = function(router, User) {
 
     router.use(function(req, res, next) {
         console.log('Pet App executed');
@@ -8,7 +6,7 @@ module.exports = function(router) {
     });
     
     router.get('/', function(req, res) {
-        res.json({ message: 'Pet App Welcome' });
+        res.json({ message: 'Pet App Welcome Users Router' });
     });
 
     router.route('/users')
@@ -64,11 +62,9 @@ module.exports = function(router) {
                         if(err){
                             res.send(err);
                         }else{
-                            res.json({message: 'User Saved!'});
+                            res.json(user);
                         }
                     });
-                    
-                    res.json(user);
                 }
             });
         })
