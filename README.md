@@ -1,4 +1,4 @@
-# nodejs_boilerplate
+# NodeJs + MongoDB + Express + JWT Boilerplate
 
 This is part of the code I use to teach NodeJs in the Hackschool.co
 The idea behind this excercise is to give the students a closer approach on how to quicly create a RestFull Api with JWT authentication
