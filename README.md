@@ -13,6 +13,8 @@ The concepts included:
  4. How to use JWT
  5. MongoDb and Mongoose
  
+ This is a work in process... Use it with love!
+ 
  
  
  
