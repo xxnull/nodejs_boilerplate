@@ -23,6 +23,7 @@ module.exports = function(router, User) {
                 if(err){
                     res.send(err);
                 }else{
+                    
                     res.json({ message: user});
                 }
             });

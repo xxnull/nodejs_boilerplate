@@ -4,6 +4,13 @@ module.exports = function(mongoose) {
     
     mongoose.Promise = global.Promise;
     mongoose.connect(config.usersDatabase, {useMongoClient: true});
+    //mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+    mongoose.connection.on('error', (err) => {
+        console.error(err);
+        console.log('%s MongoDB connection error. Please make sure MongoDB is running.', chalk.red('✗'));
+        process.exit();
+    });
+
 
     Schema = mongoose.Schema;
 
@@ -11,12 +18,15 @@ module.exports = function(mongoose) {
         name: String,
         username: { type: String, required: true, unique: true },
         password: { type: String, required: true },
-        admin: Boolean,
-        location: String,
+        email: {type: String,  unique: true },
+        active: false,
+        role: Number,
+        location:  {type: String},
         meta: {
-            age: Number,
-            website: String
+            age:  {type: Number},
+            favorite_bands: []
         },
+        pets:[],
         created_at: Date,
         updated_at: Date
     });

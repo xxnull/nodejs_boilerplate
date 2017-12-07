@@ -9,6 +9,9 @@
     var jwt  = require('jsonwebtoken');
     var config = require('./app/config');
 
+    var passport = require('passport');
+    var flash    = require('connect-flash');
+
     // Secret
 
     app.set('superSecret', config.secret);
